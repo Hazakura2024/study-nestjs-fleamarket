@@ -3,7 +3,7 @@ import { Controller, Get } from '@nestjs/common';
 @Controller('items')
 export class ItemsController {
 
-    @Get
+    @Get()
     findAll() {
         return 'This is findAll'
     }
