@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import type { Item } from './items.model';
+import { CreateItemDto } from './dto/create-item.dto';
 
 @Controller('items')
 export class ItemsController {
@@ -26,20 +27,9 @@ export class ItemsController {
 
   //NOTE: リクエストボディからパラメータを取得するにはパラメータに@Bodyをつける
   @Post()
-  create(
-    @Body('id') id: string,
-    @Body('name') name: string,
-    @Body('price') price: number,
-    @Body('description') description: string,
-  ): Item {
+  create(@Body() CreateItemDto: CreateItemDto): Item {
     //NOTE: オブジェクトの省略記法:プロパティ名と変数が同じなので使える
-    const item: Item = {
-      id,
-      name,
-      price,
-      description,
-      status: 'ON_SALE',
-    };
+
     return this.itemsService.create(item);
   }
 
