@@ -10,14 +10,20 @@ export class ItemsService {
   }
 
   findById(id: string): Item {
-    const items = this.items.find((item) => item.id === id);
-    if (!items) {
+    const item = this.items.find((item) => item.id === id);
+    if (!item) {
       throw new Error('商品が存在しません');
     }
-    return items;
+    return item;
   }
   create(item: Item): Item {
     this.items.push(item);
+    return item;
+  }
+
+  updateStatus(id: string): Item {
+    const item = this.findById(id);
+    item.status = 'SOLD_OUT';
     return item;
   }
 }
