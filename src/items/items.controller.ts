@@ -27,10 +27,8 @@ export class ItemsController {
 
   //NOTE: リクエストボディからパラメータを取得するにはパラメータに@Bodyをつける
   @Post()
-  create(@Body() CreateItemDto: CreateItemDto): Item {
-    //NOTE: オブジェクトの省略記法:プロパティ名と変数が同じなので使える
-
-    return this.itemsService.create(item);
+  create(@Body() createItemDto: CreateItemDto): Item {
+    return this.itemsService.create(createItemDto);
   }
 
   @Put(':id')
