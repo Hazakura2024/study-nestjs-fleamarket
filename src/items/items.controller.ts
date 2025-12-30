@@ -27,8 +27,10 @@ export class ItemsController {
   }
 
   //NOTE: リクエストボディからパラメータを取得するにはパラメータに@Bodyをつける
+  //NOTE: ＠Body()がついた引数にDTOのインスタンスを注入してくれる
   @Post()
   create(@Body() createItemDto: CreateItemDto): Item {
+    //NOTE: すでにプログラムですぐに使える状態（インスタンス）されている
     return this.itemsService.create(createItemDto);
   }
 
