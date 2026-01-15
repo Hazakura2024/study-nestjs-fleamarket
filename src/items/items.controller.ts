@@ -22,8 +22,8 @@ export class ItemsController {
   }
 
   @Get(':id')
-  findById(@Param('id', ParseUUIDPipe) id: string): Item {
-    return this.itemsService.findById(id);
+  async findById(@Param('id', ParseUUIDPipe) id: string): Promise<Item> {
+    return await this.itemsService.findById(id);
   }
 
   //NOTE: リクエストボディからパラメータを取得するにはパラメータに@Bodyをつける
@@ -34,10 +34,10 @@ export class ItemsController {
     return await this.itemsService.create(createItemDto);
   }
 
-  @Put(':id')
-  updateStatus(@Param('id', ParseUUIDPipe) id: string) {
-    return this.itemsService.updateStatus(id);
-  }
+  // @Put(':id')
+  // updateStatus(@Param('id', ParseUUIDPipe) id: string) {
+  //   return this.itemsService.updateStatus(id);
+  // }
 
   @Delete(':id')
   delete(@Param('id', ParseUUIDPipe) id: string) {
