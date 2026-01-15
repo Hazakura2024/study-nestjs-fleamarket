@@ -34,10 +34,10 @@ export class ItemsController {
     return await this.itemsService.create(createItemDto);
   }
 
-  // @Put(':id')
-  // updateStatus(@Param('id', ParseUUIDPipe) id: string) {
-  //   return this.itemsService.updateStatus(id);
-  // }
+  @Put(':id')
+  async updateStatus(@Param('id', ParseUUIDPipe) id: string) {
+    return await this.itemsService.updateStatus(id);
+  }
 
   @Delete(':id')
   delete(@Param('id', ParseUUIDPipe) id: string) {
