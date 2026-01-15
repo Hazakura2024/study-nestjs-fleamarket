@@ -9,7 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
-import type { Item } from './items.model';
+import type { Item } from '@prisma/client';
 import { CreateItemDto } from './dto/create-item.dto';
 
 @Controller('items')
@@ -29,9 +29,9 @@ export class ItemsController {
   //NOTE: リクエストボディからパラメータを取得するにはパラメータに@Bodyをつける
   //NOTE: ＠Body()がついた引数にDTOのインスタンスを注入してくれる
   @Post()
-  create(@Body() createItemDto: CreateItemDto): Item {
+  async create(@Body() createItemDto: CreateItemDto): Promise<Item> {
     //NOTE: すでにプログラムですぐに使える状態（インスタンス）されている
-    return this.itemsService.create(createItemDto);
+    return await this.itemsService.create(createItemDto);
   }
 
   @Put(':id')
