@@ -9,8 +9,8 @@ export class ItemsService {
 
   private items: Item[] = [];
 
-  findAll(): Item[] {
-    return this.items;
+  async findAll(): Promise<Item[]> {
+    return await this.prismaService.item.findMany();
   }
 
   findById(id: string): Item {
