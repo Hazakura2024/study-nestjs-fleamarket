@@ -38,7 +38,7 @@ export class ItemsController {
   async create(
     @Body() createItemDto: CreateItemDto,
     @Req() req: ExpressRequest & { user: RequestUser },
-): Promise<Item> {
+  ): Promise<Item> {
     //NOTE: すでにプログラムですぐに使える状態（インスタンス）されている
     return await this.itemsService.create(createItemDto, req.user.id);
   }
@@ -53,7 +53,8 @@ export class ItemsController {
   @UseGuards(AuthGuard('jwt'))
   async delete(
     @Param('id', ParseUUIDPipe) id: string,
-    @Req() req: ExpressRequest & { user: RequestUser }) {
+    @Req() req: ExpressRequest & { user: RequestUser },
+  ) {
     await this.itemsService.delete(id, req.user.id);
   }
 }
