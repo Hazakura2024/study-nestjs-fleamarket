@@ -7,10 +7,15 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import type { Item } from '@prisma/client';
 import { CreateItemDto } from './dto/create-item.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { Request as ExpressRequest } from 'express';
+import { RequestUser } from 'src/types/requestUser';
 
 @Controller('items')
 export class ItemsController {
@@ -29,9 +34,13 @@ export class ItemsController {
   //NOTE: リクエストボディからパラメータを取得するにはパラメータに@Bodyをつける
   //NOTE: ＠Body()がついた引数にDTOのインスタンスを注入してくれる
   @Post()
-  async create(@Body() createItemDto: CreateItemDto): Promise<Item> {
+  @UseGuards(AuthGuard('jwt'))
+  async create(
+    @Body() createItemDto: CreateItemDto,
+    @Req() req: ExpressRequest & { user: RequestUser },
+): Promise<Item> {
     //NOTE: すでにプログラムですぐに使える状態（インスタンス）されている
-    return await this.itemsService.create(createItemDto);
+    return await this.itemsService.create(createItemDto, req.user.id);
   }
 
   @Put(':id')
