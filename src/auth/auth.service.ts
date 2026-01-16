@@ -4,13 +4,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { CredentialsDto } from './dto/credentials.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const { name, email, password, status } = createUserDto;
@@ -25,5 +26,20 @@ export class AuthService {
         status,
       },
     });
+  }
+
+  //リクエストで渡されたemailとpasswordが正しいか検証し、問題がなければjwtトークンを発行して返却する
+  async signIn(credentialsDto: CredentialsDto) {
+    const { email, password } = credentialsDto;
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    //NOTE: emailが正しいかを取得できたがで判断できる
+    if (user && await bcrypt.compare(password, user.password)) {
+      
+    }
   }
 }
