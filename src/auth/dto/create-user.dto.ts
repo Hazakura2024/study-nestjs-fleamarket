@@ -6,7 +6,6 @@ import {
   IsString,
   IsStrongPassword,
   MaxLength,
-  minLength,
 } from 'class-validator';
 
 export class CreateUserDto {
