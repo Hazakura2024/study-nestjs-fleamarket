@@ -12,7 +12,7 @@ export class AuthService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly jwtService: JwtService,
-  ) { }
+  ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const { name, email, password, status } = createUserDto;
@@ -39,7 +39,7 @@ export class AuthService {
     });
 
     //NOTE: emailが正しいかを取得できたがで判断できる
-    if (user && await bcrypt.compare(password, user.password)) {
+    if (user && (await bcrypt.compare(password, user.password))) {
       const payload: JwtPayload = {
         sub: user.id,
         username: user.name,
