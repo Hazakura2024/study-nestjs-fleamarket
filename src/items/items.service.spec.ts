@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing'
 import { ItemsService } from './items.service'
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 const mockPrismaService = {
   item: {
@@ -23,6 +23,15 @@ describe('ItemsServiceTest', () => {
     }).compile();
 
     itemsService = module.get<ItemsService>(ItemsService);
-    prismaService = module.get<PrismaService>(PrismaService)
+    prismaService = module.get<PrismaService>(PrismaService);
+  });
+
+  describe('findAll', () => {
+    it('正常系', async () => {
+      (prismaService.item.findMany as jest.Mock).mockResolvedValue([]);
+      const expected = [];
+      const result = await itemsService.findAll();
+      expect(result).toEqual(expected);
+    });
   });
 });
