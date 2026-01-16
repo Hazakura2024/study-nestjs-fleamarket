@@ -44,12 +44,16 @@ export class ItemsController {
   }
 
   @Put(':id')
+  @UseGuards(AuthGuard('jwt'))
   async updateStatus(@Param('id', ParseUUIDPipe) id: string) {
     return await this.itemsService.updateStatus(id);
   }
 
   @Delete(':id')
-  async delete(@Param('id', ParseUUIDPipe) id: string) {
-    await this.itemsService.delete(id);
+  @UseGuards(AuthGuard('jwt'))
+  async delete(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Req() req: ExpressRequest & { user: RequestUser }) {
+    await this.itemsService.delete(id, req.user.id);
   }
 }
